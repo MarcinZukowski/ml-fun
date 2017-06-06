@@ -1,0 +1,11 @@
+*~
+*.pyc
+.idea
+
+*.out.gray
+*.out.png
+*-pg-*.gray
+*-pg-*.png
+*.csv
+*.dat
+*.gray.png
