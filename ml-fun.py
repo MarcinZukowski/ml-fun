@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 
 import array
 import optparse
@@ -13,7 +13,9 @@ from math import floor, ceil
 from random import randint
 
 import pandas
-from pandas.tools.plotting import scatter_matrix
+# from pandas.tools.plotting import scatter_matrix
+from pandas.plotting import scatter_matrix
+
 # import matplotlib.pyplot as plt
 from sklearn import model_selection
 from sklearn.metrics import classification_report
@@ -39,11 +41,11 @@ fname = args[2]
 prefix = args[3]
 
 # Read the data
-with open(fname) as f:
+with open(fname, "rb") as f:
     data = f.read()
 assert len(data) == (XS * YS), "data:{0} X={1} Y={2}".format(len(data), XS, YS)
 bytes = array.array('B')
-bytes.fromstring(data)
+bytes.frombytes(data)
 
 
 csv = None
@@ -52,7 +54,7 @@ def generateMainCSV():
     global prefix, csv
     # Generate
     csv = prefix + ".csv"
-    print "Creating " + csv
+    print("Creating " + csv)
     with open(csv, "w") as f:
         for y in range(0, YS):
             for x in range(0, XS):
@@ -98,18 +100,18 @@ def runML(nm, training_fraction):
     suff = re.sub("[\'\(\)\-\,= ]", "_", nm)
 
     suff = "{0}_tf_{1}".format(suff, training_fraction)
-    print
-    print suff
+    print()
+    print(suff)
 
     gray = "{0}_{1}.out.gray".format(prefix, suff)
     png = "{0}_{1}.out.png".format(prefix, suff)
 
-    print "Creating {0}".format(gray)
+    print("Creating {0}".format(gray))
     with open(gray, "wb") as f:
         outb.tofile(f)
 
     cmd = "convert -size {XS}x{YS} -depth 8 GRAY:{gray} {png}".format(XS=XS, YS=YS, gray=gray, png=png)
-    print "Running: {0}".format(cmd)
+    print("Running: {0}".format(cmd))
     os.system(cmd)
 
 def runML1(nm):
@@ -151,7 +153,7 @@ def normalize(sums, outsize, fname):
         for j in range(0, count):
             out.append(i)
 
-    print "Creating {0}".format(fname)
+    print("Creating {0}".format(fname))
     with open(fname, "w") as f:
         for i in range(0, len(out)):
             f.write("{0},{1}\n".format(i, out[i]))

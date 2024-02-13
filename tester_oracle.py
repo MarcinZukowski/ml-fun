@@ -2,11 +2,27 @@
 
 import getpass
 import os
-import psycopg2
-import re
-import struct
-import sys
+import cx_Oracle
+import config_oracle as config
 
+connection = None
+try:
+    connection = cx_Oracle.connect(
+        config.username,
+        config.password,
+        config.dsn,
+        encoding=config.encoding)
+
+    # show the version of the Oracle Database
+    print(connection.version)
+except cx_Oracle.Error as error:
+    print(error)
+finally:
+    # release the connection
+    if connection:
+        connection.close()
+
+'''
 try:
     user = getpass.getuser()
     print(user)
@@ -105,3 +121,4 @@ def test(prefix="surajit2.png", XS=100, YS=150):
     gray = prefix + "-pg-table.gray"
     png = prefix + "-pg-table.png"
     subtest(gray, png, XS, YS, q2)
+'''

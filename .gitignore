@@ -9,3 +9,5 @@
 *.csv
 *.dat
 *.gray.png
+
+config_oracle.py
